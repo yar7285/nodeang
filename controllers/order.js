@@ -1,6 +1,12 @@
 const Order = require('../models/Order')
 const errorHandler = require('../utils/errorHandler')
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 module.exports.getAll = async function (req, res) {
     const query = {
         user: req.user.id,
@@ -28,7 +34,7 @@ module.exports.getAll = async function (req, res) {
             .find(query)
             .sort({date: -1})
             .skip(+req.query.offset) // для пагинации используем етот метод
-            .limit(+req.query.limit)
+            .limit(+req.query.limit) // кол-во на странице
 
         res.status(200).json(orders)
     } catch (e) {
@@ -36,6 +42,12 @@ module.exports.getAll = async function (req, res) {
     }
 }
 
+/**
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 module.exports.create = async function (req, res) {
     try {
         const lastOrder = await Order
